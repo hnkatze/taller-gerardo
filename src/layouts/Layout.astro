@@ -1,0 +1,135 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Taller Gerardito — Mecánica y Diagnóstico Electrónico Automotriz | San Manuel, Cortés',
+  description = 'Taller mecánico en San Manuel, Cortés con más de 10 años de experiencia. Diagnóstico electrónico especializado, mecánica general, transmisiones, A/C. Llámenos al 8963-8660.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="taller mecánico San Manuel, diagnóstico electrónico automotriz, mecánico Cortés Honduras, taller Gerardito" />
+    <link rel="canonical" href="https://tallergerardito.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_HN" />
+    <meta property="og:title" content="Taller Gerardito — Diagnóstico Electrónico Automotriz" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://tallergerardito.com/" />
+    <meta property="og:site_name" content="Taller Gerardito" />
+    <meta property="og:image" content="https://tallergerardito.com/og-image.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Taller Gerardito — Diagnóstico Electrónico Automotriz" />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "AutoRepair",
+      "name": "Taller Gerardito",
+      "description": "Taller mecánico especializado en diagnóstico electrónico automotriz en San Manuel, Cortés, Honduras.",
+      "url": "https://tallergerardito.com",
+      "telephone": "+50489638660",
+      "email": "gerarnoe21@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "2 cuadras arriba del Carwash Mendoza",
+        "addressLocality": "San Manuel",
+        "addressRegion": "Cortés",
+        "addressCountry": "HN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "15.4",
+        "longitude": "-87.92"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      "priceRange": "$$",
+      "image": "https://tallergerardito.com/og-image.png",
+      "sameAs": [],
+      "founder": {
+        "@type": "Person",
+        "name": "Gerardo García"
+      },
+      "foundingDate": "2015",
+      "areaServed": ["San Manuel", "Choloma", "Villanueva", "San Pedro Sula"]
+    })} />
+
+  </head>
+  <body class="bg-neutral-50 text-neutral-600 antialiased">
+    <slot />
+
+    <!-- GSAP Initialization (bundled via npm) -->
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (!prefersReducedMotion) {
+        // Hero entrance (immediate, no scroll trigger)
+        gsap.from("[data-animate='hero-title']", { y: 40, opacity: 0, duration: 0.8, ease: "power3.out" });
+        gsap.from("[data-animate='hero-subtitle']", { y: 30, opacity: 0, duration: 0.8, delay: 0.2, ease: "power3.out" });
+        gsap.from("[data-animate='hero-cta']", { scale: 0.8, opacity: 0, duration: 0.6, delay: 0.5, ease: "back.out(1.7)" });
+
+        // Scroll-triggered fade-up
+        document.querySelectorAll("[data-animate='fade-up']").forEach((el) => {
+          gsap.from(el, {
+            y: 40, opacity: 0, duration: 0.6, ease: "power2.out",
+            immediateRender: false,
+            scrollTrigger: { trigger: el, start: "top 85%", once: true }
+          });
+        });
+
+        // Stagger children (service cards, brand logos, etc.)
+        document.querySelectorAll("[data-animate='stagger']").forEach((container) => {
+          gsap.from(container.children, {
+            y: 30, opacity: 0, duration: 0.5, stagger: 0.1, ease: "power2.out",
+            immediateRender: false,
+            scrollTrigger: { trigger: container, start: "top 85%", once: true }
+          });
+        });
+
+        // Scale-in (equipment icons)
+        document.querySelectorAll("[data-animate='scale-in']").forEach((el) => {
+          gsap.from(el, {
+            scale: 0.8, opacity: 0, duration: 0.5, ease: "back.out(1.7)",
+            immediateRender: false,
+            scrollTrigger: { trigger: el, start: "top 85%", once: true }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
